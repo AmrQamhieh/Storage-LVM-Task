@@ -1,0 +1,44 @@
+---
+- name: Create filesystem on app LV
+  community.general.filesystem:
+    fstype: "{{ fs_type }}"
+    dev: "/dev/{{ vg_name }}/{{ lv_app }}"
+
+- name: Create filesystem on cache LV
+  community.general.filesystem:
+    fstype: "{{ fs_type }}"
+    dev: "/dev/{{ vg_name }}/{{ lv_cache }}"
+
+- name: Create mount directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ mount_app }}"
+    - "{{ mount_cache }}"
+
+- name: Mount /var/app1 now
+  ansible.builtin.mount:
+    path: "{{ mount_app }}"
+    src: "/dev/{{ vg_name }}/{{ lv_app }}"
+    fstype: "{{ fs_type }}"
+    opts: defaults
+    state: mounted
+
+- name: Ensure /var/cache/app1 is not persistent (no fstab)
+  ansible.builtin.mount:
+    path: "{{ mount_cache }}"
+    src: "/dev/{{ vg_name }}/{{ lv_cache }}"
+    fstype: "{{ fs_type }}"
+    state: absent
+
+- name: Mount /var/cache/app1 runtime only
+  ansible.builtin.command: >
+    mount -t {{ fs_type }}
+    /dev/{{ vg_name }}/{{ lv_cache }}
+    {{ mount_cache }}
+  args:
+    creates: "{{ mount_cache }}/lost+found"
+  changed_when: false
+
