@@ -1,0 +1,10 @@
+---
+- name: Storage task - LVM + mounts + reboot validation
+  hosts: local
+  become: yes
+
+  roles: 
+  - disk_partition
+  - fs_and_mount
+  - lvm_setup
+  - reboot_and_verify
