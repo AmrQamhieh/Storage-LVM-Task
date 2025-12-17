@@ -27,7 +27,7 @@ After reboot:
 ### 1. Clone the project
 ```bash
 git clone <repo-url>
-cd storage-lvm-project
+cd Storage-LVM-Task
 ```
 
 ### 2. Install required Ansible collection
