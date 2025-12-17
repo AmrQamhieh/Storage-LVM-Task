@@ -5,6 +5,6 @@
 
   roles: 
   - disk_partition
-  - fs_and_mount
-  - lvm_setup
-  - reboot_and_verify
+  #- fs_and_mount
+  #- lvm_setup
+  #- reboot_and_verify

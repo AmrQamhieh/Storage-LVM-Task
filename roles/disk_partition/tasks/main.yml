@@ -1,0 +1,23 @@
+---
+- name: Ensure required packages exist 
+  ansible.builtin.package:
+    name: 
+      - lvm2
+      - parted
+      - e2fsprogs
+    state: present
+
+- name: Create single LVM partition on the disk
+  community.general.parted:
+    device: "{{ disk }}"
+    number: 1
+    label: gpt
+    state: present
+    part_start: 1MiB
+    part_end: 100%
+    flags: [ lvm ]
+
+- name: Wait for partition to appear
+  ansible.builtin.wait_for:
+    path: "{{ part }}"
+    timeout: 15
