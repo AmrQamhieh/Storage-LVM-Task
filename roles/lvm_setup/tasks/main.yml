@@ -1,0 +1,24 @@
+- name: Create PV
+  community.general.lvm_pv:
+    device: "{{ part }}"
+    state: present
+
+- name: Create VG
+  community.general.lvg:
+    vg: "{{vg_name}}"
+    pvs: "{{ part }}"
+    state: present
+
+- name: Create LV for /var/app1
+  community.general.lvol:
+    vg: "{{ vg_name }}"
+    lv: "{{ lv_app }}"
+    size: "{{lv_app_size}}"
+    state: present
+
+- name: Create LV for /var/cache/app1
+  community.general.lvol:
+    vg: "{{ vg_name }}"
+    lv: "{{ lv_cache }}"
+    size: "{{lv_cache_size}}"
+    state: present

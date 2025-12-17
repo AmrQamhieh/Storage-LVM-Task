@@ -6,8 +6,8 @@ vg_name: vg_app1
 lv_app: lv_app1
 lv_cache: lv_cache_app1
 
-lv_app_size: 2GB
-lv_cache_size: 2GB
+lv_app_size: "2g"
+lv_cache_size: "1.99g"
 
 fs_type: ext4
 mount_app: /var/app1
